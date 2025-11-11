@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Enhanced Calculator</h1>
+        
+        <div class="calculator">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('basic')">Basic</button>
+                <button class="tab-btn" onclick="showTab('scientific')">Scientific</button>
+                <button class="tab-btn" onclick="showTab('converter')">Unit Converter</button>
+            </div>
+
+            <div class="display">
+                <input type="text" id="result" readonly>
+            </div>
+
+            <!-- Basic Calculator -->
+            <div id="basic" class="tab-content active">
+                <div class="buttons">
+                    <button onclick="clearDisplay()">C</button>
+                    <button onclick="deleteLast()">⌫</button>
+                    <button onclick="appendToDisplay('/')">/</button>
+                    <button onclick="appendToDisplay('*')">×</button>
+                    
+                    <button onclick="appendToDisplay('7')">7</button>
+                    <button onclick="appendToDisplay('8')">8</button>
+                    <button onclick="appendToDisplay('9')">9</button>
+                    <button onclick="appendToDisplay('-')">-</button>
+                    
+                    <button onclick="appendToDisplay('4')">4</button>
+                    <button onclick="appendToDisplay('5')">5</button>
+                    <button onclick="appendToDisplay('6')">6</button>
+                    <button onclick="appendToDisplay('+')">+</button>
+                    
+                    <button onclick="appendToDisplay('1')">1</button>
+                    <button onclick="appendToDisplay('2')">2</button>
+                    <button onclick="appendToDisplay('3')">3</button>
+                    <button onclick="calculate()" class="equals" rowspan="2">=</button>
+                    
+                    <button onclick="appendToDisplay('0')" class="zero">0</button>
+                    <button onclick="appendToDisplay('.')">.</button>
+                </div>
+            </div>
+
+            <!-- Scientific Calculator -->
+            <div id="scientific" class="tab-content">
+                <div class="sci-buttons">
+                    <button onclick="scientificCalc('sqrt')">√</button>
+                    <button onclick="scientificCalc('pow')">x²</button>
+                    <button onclick="scientificCalc('sin')">sin</button>
+                    <button onclick="scientificCalc('cos')">cos</button>
+                    <button onclick="scientificCalc('log')">log</button>
+                    <button onclick="appendToDisplay('(')">(</button>
+                    <button onclick="appendToDisplay(')')">)</button>
+                    <button onclick="scientificCalc('pi')">π</button>
+                </div>
+                <div class="display">
+                    <input type="text" id="sci-input" placeholder="Enter number">
+                    <button onclick="calculateScientific()">Calculate</button>
+                </div>
+            </div>
+
+            <!-- Unit Converter -->
+            <div id="converter" class="tab-content">
+                <div class="converter-section">
+                    <h3>Temperature</h3>
+                    <input type="number" id="temp-input" placeholder="Enter value">
+                    <select id="temp-from">
+                        <option value="celsius">Celsius</option>
+                        <option value="fahrenheit">Fahrenheit</option>
+                        <option value="kelvin">Kelvin</option>
+                    </select>
+                    <span>to</span>
+                    <select id="temp-to">
+                        <option value="fahrenheit">Fahrenheit</option>
+                        <option value="celsius">Celsius</option>
+                        <option value="kelvin">Kelvin</option>
+                    </select>
+                    <button onclick="convertTemperature()">Convert</button>
+                    <div id="temp-result"></div>
+                </div>
+
+                <div class="converter-section">
+                    <h3>Length</h3>
+                    <input type="number" id="length-input" placeholder="Enter value">
+                    <select id="length-from">
+                        <option value="meters">Meters</option>
+                        <option value="feet">Feet</option>
+                        <option value="kilometers">Kilometers</option>
+                    </select>
+                    <span>to</span>
+                    <select id="length-to">
+                        <option value="feet">Feet</option>
+                        <option value="meters">Meters</option>
+                        <option value="miles">Miles</option>
+                    </select>
+                    <button onclick="convertLength()">Convert</button>
+                    <div id="length-result"></div>
+                </div>
+
+                <div class="converter-section">
+                    <h3>Weight</h3>
+                    <input type="number" id="weight-input" placeholder="Enter value">
+                    <select id="weight-from">
+                        <option value="kg">Kilograms</option>
+                        <option value="lbs">Pounds</option>
+                        <option value="grams">Grams</option>
+                    </select>
+                    <span>to</span>
+                    <select id="weight-to">
+                        <option value="lbs">Pounds</option>
+                        <option value="kg">Kilograms</option>
+                        <option value="ounces">Ounces</option>
+                    </select>
+                    <button onclick="convertWeight()">Convert</button>
+                    <div id="weight-result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
