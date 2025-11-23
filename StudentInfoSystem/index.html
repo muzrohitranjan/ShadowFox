@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 Student Information System</h1>
+        
+        <div class="stats-dashboard">
+            <div class="stat-card">
+                <div class="stat-number" id="totalStudents">0</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgGrade">0.0</div>
+                <div class="stat-label">Average Grade</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="topPerformers">0</div>
+                <div class="stat-label">A Grade Students</div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Student Information</h2>
+            <form id="studentForm">
+                <div class="form-grid">
+                    <input type="text" id="studentId" placeholder="Student ID" readonly>
+                    <input type="text" id="name" placeholder="Full Name" required>
+                    <input type="email" id="email" placeholder="Email Address" required>
+                    <input type="text" id="course" placeholder="Course/Program" required>
+                    <input type="number" id="grade" placeholder="Grade (0-100)" min="0" max="100" step="0.1" required>
+                    <input type="tel" id="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" id="addBtn">Add Student</button>
+                    <button type="button" id="updateBtn" style="display:none">Update Student</button>
+                    <button type="button" id="clearBtn">Clear Form</button>
+                    <button type="button" id="calculatorBtn">Grade Calculator</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="search-section">
+            <input type="text" id="searchInput" placeholder="Search students..." onkeyup="searchStudents()">
+            <select id="filterGrade" onchange="filterStudents()">
+                <option value="all">All Grades</option>
+                <option value="A">A Grade (90-100)</option>
+                <option value="B">B Grade (80-89)</option>
+                <option value="C">C Grade (70-79)</option>
+                <option value="D">D Grade (60-69)</option>
+                <option value="F">F Grade (0-59)</option>
+            </select>
+        </div>
+
+        <div class="table-section">
+            <h2>Student Records (<span id="recordCount">0</span>)</h2>
+            <div class="table-container">
+                <table id="studentTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Course</th>
+                            <th>Grade</th>
+                            <th>Letter</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="export-section">
+            <button onclick="exportStudents('csv')">📊 Export CSV</button>
+            <button onclick="exportStudents('txt')">📄 Export TXT</button>
+            <button onclick="clearAllStudents()">🗑️ Clear All</button>
+        </div>
+    </div>
+
+    <!-- Grade Calculator Modal -->
+    <div id="calculatorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCalculator()">&times;</span>
+            <h2>Grade Calculator</h2>
+            <div class="calculator-form">
+                <div class="calc-row">
+                    <label>Assignments:</label>
+                    <input type="number" id="assignmentGrade" placeholder="Grade" min="0" max="100">
+                    <input type="number" id="assignmentWeight" placeholder="Weight %" value="40" min="0" max="100">
+                </div>
+                <div class="calc-row">
+                    <label>Exams:</label>
+                    <input type="number" id="examGrade" placeholder="Grade" min="0" max="100">
+                    <input type="number" id="examWeight" placeholder="Weight %" value="50" min="0" max="100">
+                </div>
+                <div class="calc-row">
+                    <label>Participation:</label>
+                    <input type="number" id="participationGrade" placeholder="Grade" min="0" max="100">
+                    <input type="number" id="participationWeight" placeholder="Weight %" value="10" min="0" max="100">
+                </div>
+                <button onclick="calculateFinalGrade()">Calculate Final Grade</button>
+                <div id="calculatorResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

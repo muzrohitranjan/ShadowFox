@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📞 Contact Management System</h1>
+        
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalContacts">0</div>
+                <div class="stat-label">Total Contacts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="recentContacts">0</div>
+                <div class="stat-label">Added Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="favoriteContacts">0</div>
+                <div class="stat-label">Favorites</div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2>Add New Contact</h2>
+            <form id="contactForm">
+                <input type="text" id="name" placeholder="Full Name" required>
+                <input type="tel" id="phone" placeholder="Phone Number" required>
+                <input type="email" id="email" placeholder="Email Address" required>
+                <input type="text" id="company" placeholder="Company (Optional)">
+                <textarea id="notes" placeholder="Notes (Optional)" rows="2"></textarea>
+                <button type="submit">Add Contact</button>
+            </form>
+        </div>
+
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search contacts..." onkeyup="searchContacts()">
+                <select id="sortBy" onchange="sortContacts()">
+                    <option value="name">Sort by Name</option>
+                    <option value="recent">Sort by Recent</option>
+                    <option value="company">Sort by Company</option>
+                </select>
+                <select id="filterBy" onchange="filterContacts()">
+                    <option value="all">All Contacts</option>
+                    <option value="favorites">Favorites Only</option>
+                    <option value="recent">Added Today</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="contacts-section">
+            <div class="section-header">
+                <h2>Contacts (<span id="contactCount">0</span>)</h2>
+                <div class="view-toggle">
+                    <button class="view-btn active" onclick="setView('grid')" id="gridView">📱 Grid</button>
+                    <button class="view-btn" onclick="setView('list')" id="listView">📋 List</button>
+                </div>
+            </div>
+            <div id="contactsList" class="grid-view"></div>
+        </div>
+
+        <div class="export-section">
+            <button onclick="exportContacts('txt')">📄 Export TXT</button>
+            <button onclick="exportContacts('csv')">📊 Export CSV</button>
+            <button onclick="importContacts()">📥 Import</button>
+            <button onclick="clearAllContacts()">🗑️ Clear All</button>
+            <input type="file" id="importFile" accept=".csv,.txt" style="display:none" onchange="handleImport()">
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Edit Contact</h2>
+            <form id="editForm">
+                <input type="text" id="editName" placeholder="Full Name" required>
+                <input type="tel" id="editPhone" placeholder="Phone Number" required>
+                <input type="email" id="editEmail" placeholder="Email Address" required>
+                <input type="text" id="editCompany" placeholder="Company (Optional)">
+                <textarea id="editNotes" placeholder="Notes (Optional)" rows="2"></textarea>
+                <div class="form-actions">
+                    <button type="submit">Update Contact</button>
+                    <button type="button" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

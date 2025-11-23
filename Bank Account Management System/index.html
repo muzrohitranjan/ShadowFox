@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Account Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏦 Bank Account Management System</h1>
+        </header>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <nav>
+                    <button class="nav-btn active" onclick="showSection('create-account')">Create Account</button>
+                    <button class="nav-btn" onclick="showSection('account-operations')">Account Operations</button>
+                    <button class="nav-btn" onclick="showSection('transaction-history')">Transaction History</button>
+                    <button class="nav-btn" onclick="showSection('account-list')">All Accounts</button>
+                </nav>
+            </div>
+
+            <div class="content">
+                <!-- Create Account Section -->
+                <div id="create-account" class="section active">
+                    <h2>Create New Account</h2>
+                    <form id="create-account-form">
+                        <input type="text" id="account-holder" placeholder="Account Holder Name" required>
+                        <input type="number" id="initial-balance" placeholder="Initial Balance" min="0" step="0.01" required>
+                        <button type="submit">Create Account</button>
+                    </form>
+                </div>
+
+                <!-- Account Operations Section -->
+                <div id="account-operations" class="section">
+                    <h2>Account Operations</h2>
+                    <div class="account-selector">
+                        <select id="operation-account-select">
+                            <option value="">Select Account</option>
+                        </select>
+                        <button onclick="loadAccountInfo()">Load Account</button>
+                    </div>
+
+                    <div id="account-info" class="account-info" style="display: none;">
+                        <div class="balance-display">
+                            <h3>Current Balance: $<span id="current-balance">0.00</span></h3>
+                        </div>
+
+                        <div class="operations">
+                            <div class="operation-group">
+                                <h4>Deposit</h4>
+                                <input type="number" id="deposit-amount" placeholder="Amount" min="0.01" step="0.01">
+                                <button onclick="deposit()">Deposit</button>
+                            </div>
+
+                            <div class="operation-group">
+                                <h4>Withdraw</h4>
+                                <input type="number" id="withdraw-amount" placeholder="Amount" min="0.01" step="0.01">
+                                <button onclick="withdraw()">Withdraw</button>
+                            </div>
+
+                            <div class="operation-group">
+                                <h4>Transfer</h4>
+                                <select id="transfer-target">
+                                    <option value="">Select Target Account</option>
+                                </select>
+                                <input type="number" id="transfer-amount" placeholder="Amount" min="0.01" step="0.01">
+                                <button onclick="transfer()">Transfer</button>
+                            </div>
+
+                            <div class="operation-group">
+                                <button onclick="calculateInterest()" class="interest-btn">Calculate Interest</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction History Section -->
+                <div id="transaction-history" class="section">
+                    <h2>Transaction History</h2>
+                    <div class="account-selector">
+                        <select id="history-account-select">
+                            <option value="">Select Account</option>
+                        </select>
+                        <button onclick="loadTransactionHistory()">Load History</button>
+                    </div>
+                    <div id="transaction-list" class="transaction-list"></div>
+                </div>
+
+                <!-- Account List Section -->
+                <div id="account-list" class="section">
+                    <h2>All Accounts</h2>
+                    <div id="accounts-table" class="accounts-table"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script src="js/bankingSystem.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

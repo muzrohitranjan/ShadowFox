@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal active">
+        <div class="modal-content">
+            <div class="login-header">
+                <i class="fas fa-book-open"></i>
+                <h2>Library Management System</h2>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <p class="register-link">
+                    Don't have an account? <a href="#" onclick="showRegister()">Register here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <div class="login-header">
+                <i class="fas fa-user-plus"></i>
+                <h2>Create Account</h2>
+            </div>
+            <form id="register-form">
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="reg-username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="reg-email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-id-card"></i>
+                    <input type="text" id="reg-fullname" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="reg-password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+                <p class="register-link">
+                    Already have an account? <a href="#" onclick="showLogin()">Login here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="app-container">
+        <header class="header">
+            <div class="header-left">
+                <h1><i class="fas fa-book-open"></i> Library System</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span id="user-name">Welcome, User</span>
+                    <button class="btn btn-outline" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="sidebar">
+            <div class="nav-item active" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </div>
+            <div class="nav-item" data-section="books">
+                <i class="fas fa-book"></i> Browse Books
+            </div>
+            <div class="nav-item" data-section="my-loans">
+                <i class="fas fa-bookmark"></i> My Loans
+            </div>
+            <div class="nav-item" data-section="recommendations">
+                <i class="fas fa-star"></i> Recommendations
+            </div>
+            <div class="nav-item admin-only" data-section="manage-books" style="display: none;">
+                <i class="fas fa-plus-circle"></i> Manage Books
+            </div>
+            <div class="nav-item admin-only" data-section="manage-users" style="display: none;">
+                <i class="fas fa-users"></i> Manage Users
+            </div>
+            <div class="nav-item admin-only" data-section="reports" style="display: none;">
+                <i class="fas fa-chart-bar"></i> Reports
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-books">0</h3>
+                            <p>Total Books</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="active-loans">0</h3>
+                            <p>Active Loans</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="overdue-count">0</h3>
+                            <p>Overdue Books</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-fines">$0</h3>
+                            <p>Total Fines</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                        <div id="recent-activity" class="activity-list"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-fire"></i> Popular Books</h3>
+                        <div id="popular-books" class="book-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Books Section -->
+            <section id="books" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-book"></i> Browse Books</h2>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="book-search" placeholder="Search books...">
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <select id="category-filter">
+                        <option value="">All Categories</option>
+                    </select>
+                    <select id="availability-filter">
+                        <option value="">All Books</option>
+                        <option value="available">Available Only</option>
+                    </select>
+                </div>
+
+                <div id="books-grid" class="books-grid"></div>
+            </section>
+
+            <!-- My Loans Section -->
+            <section id="my-loans" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-bookmark"></i> My Loans</h2>
+                </div>
+                <div id="loans-list" class="loans-list"></div>
+            </section>
+
+            <!-- Recommendations Section -->
+            <section id="recommendations" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-star"></i> Recommended for You</h2>
+                </div>
+                <div id="recommendations-grid" class="books-grid"></div>
+            </section>
+
+            <!-- Manage Books Section (Admin) -->
+            <section id="manage-books" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-plus-circle"></i> Manage Books</h2>
+                    <button class="btn btn-primary" onclick="showAddBookModal()">
+                        <i class="fas fa-plus"></i> Add Book
+                    </button>
+                </div>
+                <div id="manage-books-table" class="table-container"></div>
+            </section>
+
+            <!-- Manage Users Section (Admin) -->
+            <section id="manage-users" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Manage Users</h2>
+                </div>
+                <div id="users-table" class="table-container"></div>
+            </section>
+
+            <!-- Reports Section (Admin) -->
+            <section id="reports" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Reports</h2>
+                </div>
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Library Statistics</h3>
+                        <div id="library-stats"></div>
+                    </div>
+                    <div class="report-card">
+                        <h3>Top Categories</h3>
+                        <div id="top-categories"></div>
+                    </div>
+                    <div class="report-card">
+                        <h3>Overdue Books</h3>
+                        <div id="overdue-books"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Book Details Modal -->
+    <div id="book-modal" class="modal">
+        <div class="modal-content book-modal">
+            <div class="modal-header">
+                <h3 id="book-modal-title">Book Details</h3>
+                <button class="modal-close" onclick="closeModal('book-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="book-details">
+                    <div class="book-cover">
+                        <i class="fas fa-book fa-5x"></i>
+                    </div>
+                    <div class="book-info">
+                        <h2 id="modal-book-title"></h2>
+                        <p><strong>Author:</strong> <span id="modal-book-author"></span></p>
+                        <p><strong>Category:</strong> <span id="modal-book-category"></span></p>
+                        <p><strong>Publisher:</strong> <span id="modal-book-publisher"></span></p>
+                        <p><strong>Year:</strong> <span id="modal-book-year"></span></p>
+                        <p><strong>Available:</strong> <span id="modal-book-available"></span></p>
+                        <p><strong>Description:</strong></p>
+                        <p id="modal-book-description"></p>
+                    </div>
+                </div>
+                <div class="rating-section">
+                    <h4>Rate this book:</h4>
+                    <div class="star-rating" id="star-rating">
+                        <i class="fas fa-star" data-rating="1"></i>
+                        <i class="fas fa-star" data-rating="2"></i>
+                        <i class="fas fa-star" data-rating="3"></i>
+                        <i class="fas fa-star" data-rating="4"></i>
+                        <i class="fas fa-star" data-rating="5"></i>
+                    </div>
+                    <textarea id="book-review" placeholder="Write a review (optional)"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="issue-book-btn" onclick="issueBook()">
+                    <i class="fas fa-bookmark"></i> Issue Book
+                </button>
+                <button class="btn btn-secondary" onclick="submitRating()">
+                    <i class="fas fa-star"></i> Submit Rating
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Book Modal (Admin) -->
+    <div id="add-book-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Book</h3>
+                <button class="modal-close" onclick="closeModal('add-book-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-book-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>ISBN</label>
+                            <input type="text" id="book-isbn" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="book-title" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Author</label>
+                            <input type="text" id="book-author" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Publisher</label>
+                            <input type="text" id="book-publisher">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Publication Year</label>
+                            <input type="number" id="book-year" min="1000" max="2024">
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input type="text" id="book-category" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Total Copies</label>
+                            <input type="number" id="book-copies" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="book-desc" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="addBook()">
+                    <i class="fas fa-plus"></i> Add Book
+                </button>
+                <button class="btn btn-secondary" onclick="closeModal('add-book-modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/library.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
