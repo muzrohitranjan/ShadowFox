@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureBank - Online Banking</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Login/Register Section -->
+    <div id="auth-section" class="auth-wrapper">
+        <div class="auth-container">
+            <div class="auth-left">
+                <div class="brand">
+                    <i class="fas fa-university"></i>
+                    <h1>SecureBank</h1>
+                    <p>Your trusted banking partner</p>
+                </div>
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Bank-level security</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 availability</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Mobile friendly</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="auth-right">
+                <div class="auth-tabs">
+                    <button class="tab-btn active" onclick="showLogin()">Sign In</button>
+                    <button class="tab-btn" onclick="showRegister()">Sign Up</button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form">
+                    <h2>Welcome back</h2>
+                    <p>Sign in to your account</p>
+                    <form onsubmit="login(event)">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="login-username" placeholder="Username" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="login-password" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Sign In
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Register Form -->
+                <div id="register-form" class="auth-form hidden">
+                    <h2>Create account</h2>
+                    <p>Join SecureBank today</p>
+                    <form onsubmit="register(event)">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="register-username" placeholder="Username" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="register-email" placeholder="Email" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="register-password" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" class="dashboard-wrapper hidden">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <div class="brand">
+                    <i class="fas fa-university"></i>
+                    <span>SecureBank</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="user-name"></span>
+                        <span class="user-role">Personal Banking</span>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-main">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" onclick="showAccounts()">
+                        <i class="fas fa-wallet"></i>
+                        <span>My Accounts</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showTransfer()">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Transfer Money</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showTransactions()">
+                        <i class="fas fa-history"></i>
+                        <span>Transactions</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showCreateAccount()">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>New Account</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Accounts Section -->
+                <div id="accounts-section" class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-wallet"></i> My Accounts</h2>
+                        <p>Manage your bank accounts</p>
+                    </div>
+                    <div id="accounts-list" class="accounts-grid"></div>
+                </div>
+
+                <!-- Transfer Section -->
+                <div id="transfer-section" class="content-section hidden">
+                    <div class="section-header">
+                        <h2><i class="fas fa-exchange-alt"></i> Transfer Money</h2>
+                        <p>Send money securely</p>
+                    </div>
+                    <div class="transfer-container">
+                        <form onsubmit="transferFunds(event)" class="transfer-form">
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label>From Account</label>
+                                    <select id="from-account" required>
+                                        <option value="">Select your account</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>To Account</label>
+                                    <input type="text" id="to-account" placeholder="Enter account number" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label>Amount</label>
+                                    <input type="number" id="amount" placeholder="0.00" step="0.01" min="0.01" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>Description</label>
+                                    <input type="text" id="description" placeholder="Payment description">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                                Transfer Now
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Transactions Section -->
+                <div id="transactions-section" class="content-section hidden">
+                    <div class="section-header">
+                        <h2><i class="fas fa-history"></i> Transaction History</h2>
+                        <p>View your recent transactions</p>
+                    </div>
+                    <div class="transactions-container">
+                        <div class="transaction-filters">
+                            <select id="account-select">
+                                <option value="">Select Account</option>
+                            </select>
+                            <button onclick="loadTransactions()" class="btn-secondary">
+                                <i class="fas fa-search"></i>
+                                Load Transactions
+                            </button>
+                        </div>
+                        <div id="transactions-list" class="transactions-list"></div>
+                    </div>
+                </div>
+
+                <!-- Create Account Section -->
+                <div id="create-account-section" class="content-section hidden">
+                    <div class="section-header">
+                        <h2><i class="fas fa-plus-circle"></i> Create New Account</h2>
+                        <p>Open a new bank account</p>
+                    </div>
+                    <div class="create-account-container">
+                        <form onsubmit="createAccount(event)" class="create-account-form">
+                            <div class="account-types">
+                                <div class="account-type-card">
+                                    <input type="radio" id="savings" name="account-type" value="SAVINGS" required>
+                                    <label for="savings">
+                                        <i class="fas fa-piggy-bank"></i>
+                                        <h3>Savings Account</h3>
+                                        <p>Earn interest on your deposits</p>
+                                    </label>
+                                </div>
+                                <div class="account-type-card">
+                                    <input type="radio" id="current" name="account-type" value="CURRENT" required>
+                                    <label for="current">
+                                        <i class="fas fa-briefcase"></i>
+                                        <h3>Current Account</h3>
+                                        <p>For business transactions</p>
+                                    </label>
+                                </div>
+                                <div class="account-type-card">
+                                    <input type="radio" id="fixed" name="account-type" value="FIXED_DEPOSIT" required>
+                                    <label for="fixed">
+                                        <i class="fas fa-chart-line"></i>
+                                        <h3>Fixed Deposit</h3>
+                                        <p>Higher returns on fixed deposits</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-plus"></i>
+                                Create Account
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast Messages -->
+    <div id="toast-container" class="toast-container"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
