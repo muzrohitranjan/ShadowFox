@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Chat Application</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="header-left">
+                <i class="fas fa-comments"></i>
+                <h1>Real-Time Chat</h1>
+            </div>
+            <div class="header-right">
+                <span class="status" id="connectionStatus">Disconnected</span>
+                <button id="connectBtn" class="btn btn-primary">Connect</button>
+                <button id="disconnectBtn" class="btn btn-secondary" disabled>Disconnect</button>
+            </div>
+        </div>
+
+        <!-- Connection Panel -->
+        <div class="connection-panel" id="connectionPanel">
+            <div class="connection-form">
+                <h3>Connect to Chat Server</h3>
+                <div class="form-group">
+                    <label for="serverHost">Server:</label>
+                    <input type="text" id="serverHost" value="localhost" placeholder="Server address">
+                </div>
+                <div class="form-group">
+                    <label for="serverPort">Port:</label>
+                    <input type="number" id="serverPort" value="8080" placeholder="Port">
+                </div>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter your username" maxlength="20">
+                </div>
+                <button id="joinChat" class="btn btn-success">Join Chat</button>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="chat-main" id="chatMain" style="display: none;">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="username" id="currentUser">User</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                </div>
+
+                <div class="rooms-section">
+                    <h4><i class="fas fa-door-open"></i> Rooms</h4>
+                    <div class="room-list" id="roomList">
+                        <div class="room-item active" data-room="general">
+                            <i class="fas fa-hashtag"></i> general
+                        </div>
+                    </div>
+                    <div class="room-actions">
+                        <input type="text" id="newRoomName" placeholder="Room name">
+                        <button id="createRoom" class="btn btn-sm">Create</button>
+                    </div>
+                </div>
+
+                <div class="users-section">
+                    <h4><i class="fas fa-users"></i> Online Users</h4>
+                    <div class="user-list" id="userList">
+                        <!-- Users will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Content -->
+            <div class="chat-content">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will appear here -->
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-group">
+                        <input type="text" id="messageInput" placeholder="Type your message..." maxlength="500">
+                        <button id="sendBtn" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="chat-commands">
+                        <button class="cmd-btn" data-cmd="/help">Help</button>
+                        <button class="cmd-btn" data-cmd="/users">Users</button>
+                        <button class="cmd-btn" data-cmd="/rooms">Rooms</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Private Message Modal -->
+        <div class="modal" id="pmModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Private Message</h3>
+                    <span class="close" id="closePM">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="pmUser" placeholder="Username">
+                    <textarea id="pmMessage" placeholder="Your message..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button id="sendPM" class="btn btn-primary">Send</button>
+                    <button id="cancelPM" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/chat.js"></script>
+</body>
+</html>
