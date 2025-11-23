@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - E-Commerce</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">E-Commerce Admin</div>
+        <div class="nav-links">
+            <a href="index.html">Customer View</a>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="section">
+            <h2>Add New Product</h2>
+            <div class="form-container">
+                <input type="text" id="productName" placeholder="Product Name" required>
+                <input type="text" id="productDescription" placeholder="Description" required>
+                <input type="number" id="productPrice" placeholder="Price" step="0.01" required>
+                <input type="text" id="productCategory" placeholder="Category" required>
+                <input type="url" id="productImage" placeholder="Image URL">
+                <button onclick="addProduct()">Add Product</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>All Products</h2>
+            <div id="adminProductList"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080';
+        let authToken = localStorage.getItem('authToken');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!authToken) {
+                window.location.href = 'index.html';
+                return;
+            }
+            loadAdminProducts();
+        });
+
+        async function addProduct() {
+            const productData = {
+                name: document.getElementById('productName').value,
+                description: document.getElementById('productDescription').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                category: document.getElementById('productCategory').value,
+                imageUrl: document.getElementById('productImage').value || 'https://via.placeholder.com/200'
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/products`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                if (response.ok) {
+                    alert('Product added successfully!');
+                    document.querySelectorAll('#productName, #productDescription, #productPrice, #productCategory, #productImage').forEach(input => input.value = '');
+                    loadAdminProducts();
+                } else {
+                    alert('Failed to add product');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function loadAdminProducts() {
+            try {
+                const response = await fetch(`${API_BASE}/products`);
+                const products = await response.json();
+                displayAdminProducts(products);
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        function displayAdminProducts(products) {
+            const container = document.getElementById('adminProductList');
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p>Category: ${product.category}</p>
+                    <div class="price">$${product.price}</div>
+                    <p>Status: ${product.active ? 'Active' : 'Inactive'}</p>
+                    <button onclick="toggleProduct('${product.id}', ${!product.active})">
+                        ${product.active ? 'Deactivate' : 'Activate'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        async function toggleProduct(productId, activate) {
+            try {
+                const response = await fetch(`${API_BASE}/products/${productId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ active: activate })
+                });
+
+                if (response.ok) {
+                    loadAdminProducts();
+                }
+            } catch (error) {
+                console.error('Error updating product:', error);
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
